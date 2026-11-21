@@ -14,7 +14,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='31' fill='%23A0566B'/%3E%3Ccircle cx='32' cy='32' r='26' fill='none' stroke='%23D5B172' stroke-width='1.5'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='24' fill='%23F8ECF4'%3EY%26amp;C%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;0,6..96,800;1,6..96,500&family=Great+Vibes&family=Jost:wght@400;500&family=Noto+Serif+SC:wght@600&family=Noto+Sans+SC:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;0,6..96,800;1,6..96,500;1,6..96,700&family=Great+Vibes&family=Jost:wght@400;500&family=Noto+Serif+SC:wght@600&family=Noto+Sans+SC:wght@500&display=swap">
 <style>
 /* One envelope on washi paper: tap the Y&C seal, the flap lifts, the card rises out and the envelope drops away.
    Single deliberate light look, like printed stationery. All geometry is in units of --w, the envelope width. */
@@ -36,7 +36,7 @@
   --display: "Bodoni Moda", "Didot", "Times New Roman", serif;
   --body: "Jost", "Segoe UI", system-ui, sans-serif;
   --zh: "Noto Serif SC", "Microsoft YaHei", serif;
-  --w: min(86vw, 400px, 56vh);
+  --w: min(78vw, 400px, 56vh);
   --ease: cubic-bezier(.65, 0, .35, 1);
 }
 * { box-sizing: border-box; }
@@ -222,7 +222,7 @@ main { position: relative; z-index: 1; min-height: 100%; display: flex; flex-dir
 .faq details p { margin: 0 0 14px; font-size: 15px; line-height: 1.6; color: var(--text2); }
 
 /* ---------- laptops and wide screens: card on the left (stays in view), everything else on the right ---------- */
-@media (min-width: 960px) {
+@media (min-width: 99999px) { /* two-column layout switched off 21 Nov: everything sits in one big scroll */
   :root { --w: min(440px, 60vh); }
   body.opened main { flex-direction: row; align-items: flex-start; justify-content: center; gap: clamp(40px, 6vw, 110px); padding-block: 56px; }
   body.opened .scene { position: sticky; top: 56px; flex: none; height: calc(var(--w) * 1.4); }
@@ -295,7 +295,377 @@ body.lb-open { overflow: hidden; }/* ---------- swipe through the stamp photos -
 .love .love-sig span { font-family: var(--display); font-style: italic; font-weight: 600; }
 .replay { font: 500 15px var(--body); }
 .cd span { color: var(--ink); font-weight: 600; }
-.sec h2 { font-weight: 600; }</style>
+.sec h2 { font-weight: 600; }
+/* ---------- card as a dark red hanging scroll; photo pressed into a gold wax seal (21 Nov) ----------
+   Colours: burgundy brocade #6E1824, antique gold #C9A24B / #E3C98A, ivory text #F6E9D2. */
+.card {
+  background-color: #6E1824;
+  background-image:
+    radial-gradient(rgba(214, 178, 106, .18) .8px, transparent 1.3px),
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.16));
+  background-size: 8px 8px, 100% 100%;
+}
+/* wooden rods with gold caps at the top and bottom of the card-scroll */
+.card::before, .card::after {
+  content: ""; position: absolute; left: -5%; right: -5%; height: calc(var(--w) * .034); border-radius: 99px; z-index: 2; pointer-events: none;
+  background:
+    linear-gradient(90deg, #D4AE5A 0 4%, #8A6A2A 4% 4.8%, transparent 4.8% 95.2%, #8A6A2A 95.2% 96%, #D4AE5A 96%),
+    linear-gradient(180deg, #6B4630, #3E2618 55%, #2A190F);
+  box-shadow: 0 3px 6px rgba(40, 15, 10, .4);
+}
+.card::before { top: calc(var(--w) * -.017); }
+.card::after { bottom: calc(var(--w) * -.017); }
+.pocket { height: calc(400px + var(--w) * 1.42); }
+.card-in { border-color: #C9A24B; outline-color: rgba(214, 178, 106, .45); }
+
+/* text on the red scroll */
+.c-eyebrow { color: #E3C98A; }
+.c-names { color: #F6E9D2; }
+.c-zh { color: #F6E9D2; }
+.c-rule { color: #C9A24B; }
+.c-date { color: #FFF8EC; }
+.c-day { color: #F1E2CB; }
+.c-venue { color: #F1E2CB; }
+.c-venue em { color: #E3C98A; }
+.c-follow { color: #E3C98A; }
+
+/* photo in a round gold wax seal */
+.stamp-wrap { margin-block: calc(var(--w) * .012); }
+.stamp {
+  transform: rotate(-3deg); width: calc(var(--w) * .5); height: calc(var(--w) * .5);
+  padding: calc(var(--w) * .045);
+  border-radius: 49% 51% 47% 53% / 52% 47% 53% 48%;
+  background: radial-gradient(circle at 35% 30%, #F3D894 0%, #D8B262 38%, #B48A3A 70%, #8C6726 100%);
+  box-shadow: 0 8px 16px -6px rgba(30, 5, 10, .6), inset 0 2px 3px rgba(255, 245, 210, .6), inset 0 -3px 5px rgba(90, 60, 20, .45);
+}
+.stamp::before { content: none; }
+.stamp::after { content: none; }
+.stamp-wrap::before { content: none; }
+.stamp-photo { border-radius: 50%; outline: 0; box-shadow: inset 0 0 0 2px rgba(120, 85, 30, .55), 0 0 0 3px rgba(255, 240, 200, .35); }
+.stamp-photo .ph { border-radius: 50%; }
+.stamp-label, .postmark { display: none; }
+.zoom-hint { left: 50%; margin-left: -13px; top: 8px; }
+.stamp-dots { left: 0; right: 0; justify-content: center; bottom: calc(var(--w) * .012); }
+.stamp-dots i { background: rgba(90, 60, 20, .35); }
+.stamp-dots i.on { background: #6E1824; }
+/* names on the card: bold, dark red to match the scroll (21 Nov) */
+.c-names { font-weight: 700; color: #F6E9D2; letter-spacing: 0; white-space: nowrap; font-size: calc(var(--w) * .074); }
+/* "Save the Date" in bold italic, like the names (21 Nov) */
+.c-eyebrow { font-style: italic; font-weight: 700; letter-spacing: .02em; padding-left: 0; font-size: calc(var(--w) * .072); color: #E8CB86; line-height: 1.1; }
+/* sakura pink page (21 Nov, darker) with falling maple leaves */
+body {
+  background-color: #E8A9B9;
+  background-image:
+    radial-gradient(120% 60% at 50% 0%, #DE93A6 0%, rgba(222,147,166,0) 65%),
+    radial-gradient(90% 50% at 10% 100%, #EFBCC8 0%, rgba(239,188,200,0) 70%),
+    linear-gradient(180deg, #E39FB0 0%, #EAAFBE 55%, #EEBDC9 100%);
+  background-attachment: fixed;
+}
+.env-back { box-shadow: 0 20px 34px -16px rgba(120, 50, 65, .3); }
+.env-front { filter: drop-shadow(0 1px 0 rgba(255,255,255,.4)); }
+/* ================= one big scroll on a black night with falling hearts (21 Nov) =================
+   After opening, the card and every detail sit together inside one large dark red hanging scroll in the middle. */
+body {
+  background-color: #0A0809;
+  background-image: radial-gradient(90% 70% at 50% 35%, #1E0D12 0%, rgba(30,13,18,0) 70%), linear-gradient(#0A0809, #0A0809);
+  background-attachment: fixed;
+}
+.hint { color: #F6E9D2; }
+.hint small { color: #E3C98A; }
+.env-back { box-shadow: 0 24px 44px -18px rgba(0, 0, 0, .8); }
+
+/* the big scroll: painted on main's pseudo-elements, faded in once the envelope is open */
+main { --pad: max(20px, calc(var(--w) * .075)); }
+main::before, main::after { content: ""; position: absolute; pointer-events: none; opacity: 0; transition: opacity .9s var(--ease); z-index: -1; }
+main::before {
+  inset: 0 -12px; padding: 18px 12px;
+  background:
+    linear-gradient(90deg, #D4AE5A 0 20px, #8A6A2A 20px 23px, transparent 23px calc(100% - 23px), #8A6A2A calc(100% - 23px) calc(100% - 20px), #D4AE5A calc(100% - 20px)) top / 100% 18px no-repeat,
+    linear-gradient(90deg, #D4AE5A 0 20px, #8A6A2A 20px 23px, transparent 23px calc(100% - 23px), #8A6A2A calc(100% - 23px) calc(100% - 20px), #D4AE5A calc(100% - 20px)) bottom / 100% 18px no-repeat,
+    linear-gradient(180deg, #6B4630, #3E2618 55%, #2A190F) top / 100% 18px no-repeat,
+    linear-gradient(180deg, #6B4630, #3E2618 55%, #2A190F) bottom / 100% 18px no-repeat,
+    radial-gradient(rgba(214, 178, 106, .16) .8px, transparent 1.3px) 0 0 / 8px 8px,
+    linear-gradient(180deg, #7A1C29, #6A1824 50%, #5A121D);
+  background-clip: border-box, border-box, border-box, border-box, content-box, content-box;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, .7));
+}
+/* thin gold frame inside the scroll */
+main::after { inset: 30px 10px; border: 1px solid rgba(214, 178, 106, .55); outline: 1px solid rgba(214, 178, 106, .25); outline-offset: -6px; z-index: 0; }
+body.opened main { width: min(calc(100vw - 32px), max(calc(var(--w) + var(--pad) * 2), 660px)); min-height: 0; margin: 40px auto 56px; padding: 58px var(--pad) 64px; gap: 26px; }
+body.opened main::before, body.opened main::after { opacity: 1; }
+/* the card becomes the top panel of the big scroll: no rods or shadow of its own */
+body.opened .card::before, body.opened .card::after { display: none; }
+body.opened .done .card { box-shadow: none; }
+body.opened .after { width: 100%; max-width: 540px; }
+
+/* details on the red scroll: ivory text, gold accents, see-through boxes with gold lines */
+.after { color: #F6E9D2; }
+.btn-solid { background: #D4AE5A; border-color: #D4AE5A; color: #4A0F18; font-weight: 600; }
+.sec-eye { color: #E3C98A; }
+.sec h2 { color: #F6E9D2; }
+.cd div { background: rgba(0, 0, 0, .16); border-color: rgba(214, 178, 106, .55); }
+.cd b { color: #FFF8EC; }
+.cd span { color: #E3C98A; }
+.verse { background: rgba(0, 0, 0, .14); border-color: rgba(214, 178, 106, .55); }
+.verse p, .verse .verse-zh { color: #F6E9D2; }
+.verse .verse-zh { border-top-color: rgba(214, 178, 106, .35); }
+.verse cite { color: #E3C98A; }
+.story p, .story .story-zh { color: #F6E9D2; }
+.story b { color: #F3C3A0; }
+.faq { background: rgba(0, 0, 0, .14); border-color: rgba(214, 178, 106, .55); }
+.faq details { border-bottom-color: rgba(214, 178, 106, .3); }
+.faq summary { color: #F6E9D2; }
+.faq details p { color: #F1E2CB; }
+.love p, .love .love-zh { color: #F6E9D2; }
+.love .love-sig { color: #E3C98A; }
+.love .love-sig span { color: #F6E9D2; }
+.replay { color: #E3C98A; }
+/* ================= scroll opening: grows first, then unrolls downward (21 Nov) =================
+   main::before = top rod + red brocade (revealed from the top down), main::after = bottom rod that travels down as it unrolls. */
+main::before {
+  inset: 0 -12px; padding: 18px 12px 18px;
+  background:
+    linear-gradient(90deg, #D4AE5A 0 20px, #8A6A2A 20px 23px, transparent 23px calc(100% - 23px), #8A6A2A calc(100% - 23px) calc(100% - 20px), #D4AE5A calc(100% - 20px)) top / 100% 18px no-repeat,
+    linear-gradient(180deg, #6B4630, #3E2618 55%, #2A190F) top / 100% 18px no-repeat,
+    radial-gradient(rgba(214, 178, 106, .16) .8px, transparent 1.3px) 0 0 / 8px 8px,
+    linear-gradient(180deg, #7A1C29, #6A1824 50%, #5A121D);
+  background-clip: border-box, border-box, content-box, content-box;
+  transform-origin: 50% 0; transform: scale(.45);
+  clip-path: inset(0 0 calc(100% - 18px) 0);
+  transition: opacity .35s var(--ease), transform .4s var(--ease), clip-path .6s var(--ease);
+}
+main::after {
+  inset: auto; left: -12px; right: -12px; top: 0; height: 18px; border: 0; outline: 0; z-index: -1;
+  background:
+    linear-gradient(90deg, #D4AE5A 0 20px, #8A6A2A 20px 23px, transparent 23px calc(100% - 23px), #8A6A2A calc(100% - 23px) calc(100% - 20px), #D4AE5A calc(100% - 20px)),
+    linear-gradient(180deg, #6B4630, #3E2618 55%, #2A190F);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .5);
+  transform-origin: 50% 0; transform: scale(.45);
+  transition: opacity .35s var(--ease), transform .4s var(--ease), top .6s var(--ease);
+}
+/* opening: fade in and grow (0.6s), then unroll from top to bottom (1.4s) */
+body.opened main::before {
+  opacity: 1; transform: none; clip-path: inset(0 0 0 0);
+  transition: opacity .3s var(--ease), transform .6s cubic-bezier(.3, 1.3, .5, 1) .05s, clip-path 1.4s cubic-bezier(.45, 0, .2, 1) .7s;
+}
+body.opened main::after {
+  opacity: 1; transform: none; top: calc(100% - 18px);
+  transition: opacity .3s var(--ease), transform .6s cubic-bezier(.3, 1.3, .5, 1) .05s, top 1.4s cubic-bezier(.45, 0, .2, 1) .7s;
+}
+@media (prefers-reduced-motion: reduce) { main::before, main::after { transition: none !important; } }
+
+/* background: deep wine velvet with soft gold and rose glows, instead of flat black */
+body {
+  background-color: #16060B;
+  background-image:
+    radial-gradient(circle at 14% 20%, rgba(232, 190, 110, .16), rgba(232, 190, 110, 0) 90px),
+    radial-gradient(circle at 86% 26%, rgba(244, 150, 170, .13), rgba(244, 150, 170, 0) 120px),
+    radial-gradient(circle at 78% 80%, rgba(232, 190, 110, .12), rgba(232, 190, 110, 0) 100px),
+    radial-gradient(circle at 20% 82%, rgba(244, 150, 170, .10), rgba(244, 150, 170, 0) 140px),
+    radial-gradient(circle at 50% 6%, rgba(232, 190, 110, .10), rgba(232, 190, 110, 0) 160px),
+    radial-gradient(90% 75% at 50% 42%, #44111D 0%, #2A0A12 50%, #12040A 100%);
+  background-attachment: fixed;
+}
+/* ================= unroll v2 (21 Nov): the scroll and everything on it unroll together =================
+   JS clips <main> from the top down and moves the bottom rod with the clip edge (--u), so the red scroll,
+   the button, countdown, scripture, story and questions are all revealed by the same moving rod. */
+main::before, main::after { clip-path: none !important; transform: none !important; }
+main::before { transition: opacity .45s var(--ease) !important; }
+main::after { top: calc(var(--u, 100%) - 18px) !important; transition: opacity .45s var(--ease) !important; }
+body.opened main::before, body.opened main::after { opacity: 0; }
+body.opened.scroll-on main::before, body.opened.scroll-on main::after { opacity: 1; }
+
+/* lighter page: champagne blush with soft gold and rose glows */
+body {
+  background-color: #F5E4E2;
+  background-image:
+    radial-gradient(circle at 14% 18%, rgba(214, 178, 106, .22), rgba(214, 178, 106, 0) 120px),
+    radial-gradient(circle at 86% 24%, rgba(226, 140, 155, .20), rgba(226, 140, 155, 0) 150px),
+    radial-gradient(circle at 80% 82%, rgba(214, 178, 106, .18), rgba(214, 178, 106, 0) 130px),
+    radial-gradient(circle at 18% 84%, rgba(226, 140, 155, .16), rgba(226, 140, 155, 0) 160px),
+    radial-gradient(90% 70% at 50% 40%, #FBF1EE 0%, #F5E2E1 55%, #ECD0D1 100%);
+  background-attachment: fixed;
+}
+.hint { color: #5A2630; }
+.hint small { color: #8A6420; }
+.env-back { box-shadow: 0 22px 38px -16px rgba(110, 40, 50, .35); }
+main::before { filter: drop-shadow(0 18px 30px rgba(90, 25, 35, .35)); }
+/* ---------- brown leather page (21 Nov): a small seamless leather image (cheap to draw), warm light in the middle, darker edges, stitched border ---------- */
+html { background: #6A4329 url("leather.png") repeat; background-size: 320px 320px; }
+body { background: transparent !important; }
+body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(100% 75% at 50% 40%, rgba(190, 130, 80, .30) 0%, rgba(120, 75, 40, 0) 60%),
+    radial-gradient(140% 120% at 50% 50%, rgba(0, 0, 0, 0) 50%, rgba(25, 12, 5, .6) 100%); }/* stitching around the edge of the leather */
+body::after { content: ""; position: fixed; inset: 12px; border: 2px dashed rgba(232, 200, 150, .45); border-radius: 14px; pointer-events: none; z-index: 0;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .35), inset 0 1px 0 rgba(0, 0, 0, .35); }
+.hint { color: #F4E6CE; text-shadow: 0 1px 2px rgba(0, 0, 0, .5); }
+.hint small { color: #E3C98A; }
+.env-back { box-shadow: 0 24px 40px -14px rgba(0, 0, 0, .6); }
+main::before { filter: drop-shadow(0 20px 34px rgba(0, 0, 0, .55)); }
+/* ================= rolled scroll start (21 Nov): no envelope ================= */
+.env-part { display: none !important; }
+body.rolled { overflow: hidden; }
+main { transform-origin: 50% 40px; transition: transform 1s cubic-bezier(.3, 1.15, .4, 1); }
+/* rolled: the two rods (46px) sit in the middle of the screen, a little smaller; tapping brings it forward to full size at the top */
+body.rolled main { transform: translateY(var(--rollY, 40vh)) scale(.82); }
+body.instant main, body.instant #seal, body.instant .hint { transition: none !important; }
+/* the Y C seal tied over the rolled scroll with a red ribbon */
+#seal.seal { position: fixed; left: 50%; top: var(--midY, 50%); width: 84px; height: 84px; margin: -42px 0 0 -42px; z-index: 30;
+  transition: opacity .45s var(--ease), transform .5s var(--ease); }
+#seal.seal::before { content: ""; position: absolute; left: 50%; top: -30px; bottom: -30px; width: 16px; margin-left: -8px; z-index: -1; border-radius: 2px;
+  background: linear-gradient(90deg, #8E1B29, #C8384E 45%, #A12536); box-shadow: 0 3px 6px rgba(0, 0, 0, .4); }
+body.rolled #seal.seal:hover { transform: scale(1.06); }
+body:not(.rolled) #seal.seal { opacity: 0; transform: scale(.6); pointer-events: none; }
+.hint { position: fixed; left: 0; right: 0; top: calc(var(--midY, 50%) + 78px); z-index: 30; transition: opacity .4s var(--ease); }
+body:not(.rolled) .hint { opacity: 0; pointer-events: none; }
+body.rolled main { cursor: pointer; }
+/* rolled paper between the rods looks round, like a cylinder */
+body.rolled main::before { background:
+    linear-gradient(90deg, #D4AE5A 0 20px, #8A6A2A 20px 23px, transparent 23px calc(100% - 23px), #8A6A2A calc(100% - 23px) calc(100% - 20px), #D4AE5A calc(100% - 20px)) top / 100% 18px no-repeat,
+    linear-gradient(180deg, #6B4630, #3E2618 55%, #2A190F) top / 100% 18px no-repeat,
+    linear-gradient(180deg, rgba(0,0,0,.45), rgba(255,220,200,.22) 38%, rgba(0,0,0,.05) 60%, rgba(0,0,0,.5)) 0 18px / 100% 44px no-repeat,
+    linear-gradient(180deg, #7A1C29, #6A1824 50%, #5A121D);
+  background-clip: border-box, border-box, content-box, content-box; }
+/* ================= scroll case (21 Nov): the rolled scroll starts inside a lacquered case ================= */
+/* the case: a dark red lacquer tube lying across the middle, gold bands, closed end on the left, cap on the right */
+.tube { position: fixed; left: 50%; top: var(--midY, 50%); width: var(--tubeW, 360px); height: 66px; margin: -33px 0 0 calc(var(--tubeW, 360px) / -2);
+  z-index: 5; border-radius: 14px; cursor: pointer;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(255,235,220,.28) 26%, rgba(255,255,255,.06) 40%, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%),
+    linear-gradient(90deg, transparent 9%, #B8923A 9%, #F0D38A 10%, #B8923A 11.5%, transparent 11.5% 88.5%, #B8923A 88.5%, #F0D38A 90%, #B8923A 91%, transparent 91%),
+    linear-gradient(90deg, transparent 47%, rgba(184,146,58,.75) 47% 47.5%, transparent 47.5% 52.5%, rgba(184,146,58,.75) 52.5% 53%, transparent 53%),
+    #6E1522;
+  box-shadow: 0 18px 30px -8px rgba(0, 0, 0, .6), inset 0 0 0 1px rgba(0, 0, 0, .35);
+  transition: transform .9s cubic-bezier(.45, 0, .2, 1), opacity .5s var(--ease); }
+/* closed end (left) and the removable cap (right): slightly bigger gold-rimmed lacquer discs */
+.tube-end, .tube-cap { position: absolute; top: -5px; bottom: -5px; width: 26px; border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.5), rgba(255,235,220,.25) 26%, rgba(0,0,0,0) 55%, rgba(0,0,0,.55)),
+    linear-gradient(90deg, #B8923A, #F0D38A 40%, #B8923A 60%, #8A6A2A);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .45); }
+.tube-end { left: -8px; }
+.tube-cap { right: -8px; transition: transform .5s cubic-bezier(.3, 1.4, .5, 1), opacity .5s var(--ease); }
+/* the rolled scroll sits hidden inside the case (case is above it) */
+body.rolled.sliding-out main { transform: translateX(var(--outX, 200px)) translateY(var(--rollY, 40vh)) scale(.82); transition: transform .9s cubic-bezier(.45, 0, .2, 1); }
+body.sliding-out .tube { transform: translateX(calc(-1 * var(--tubeOut, 180px))); }
+body.out .tube-cap { transform: translateX(60px) translateY(-20px) rotate(24deg); opacity: 0; }
+body.tube-gone .tube { opacity: 0; transform: translateX(calc(-1 * var(--tubeOut, 180px))) translateY(40px); pointer-events: none; }
+body.out #seal.seal, body.out .hint { opacity: 0; transform: scale(.6); pointer-events: none; }
+body.out .hint { transform: none; }
+body.instant .tube, body.instant .tube-cap { transition: none !important; }
+/* ================= scroll case v2 (21 Nov): bigger, real-looking oxblood leather case with brass ends ================= */
+body { --tubeH: clamp(96px, 15vw, 128px); }
+#seal.seal::before { content: none; }                       /* no ribbon */
+#seal.seal { width: calc(var(--tubeH) * .66); height: calc(var(--tubeH) * .66); margin: calc(var(--tubeH) * -.33) 0 0 calc(var(--tubeH) * -.33);
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .45)) drop-shadow(0 1px 1px rgba(0, 0, 0, .3)); }
+.hint { top: calc(var(--midY, 50%) + var(--tubeH) / 2 + 26px); }
+.tube {
+  height: var(--tubeH); margin-top: calc(var(--tubeH) / -2); border-radius: 5px;
+  background:
+    /* round shading: dark top edge, narrow highlight, soft lower reflection, dark underside */
+    linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.18) 10%, rgba(255,220,210,.10) 20%, rgba(255,236,228,.34) 26%, rgba(255,220,210,.10) 32%, rgba(0,0,0,0) 46%, rgba(0,0,0,.16) 68%, rgba(255,200,190,.07) 80%, rgba(0,0,0,.35) 90%, rgba(0,0,0,.65) 100%),
+    /* antique brass ferrules near each end */
+    linear-gradient(90deg, transparent 6.5%, #6E5222 6.5%, #C4A05A 7.2%, #8C6C30 8.2%, #5A4219 8.6%, transparent 8.6% 91.4%, #5A4219 91.4%, #8C6C30 91.8%, #C4A05A 92.8%, #6E5222 93.5%, transparent 93.5%),
+    /* leather grain */
+    url("leather.png") 0 0 / 180px 180px,
+    #7A1C28;
+  background-blend-mode: normal, normal, soft-light, normal;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .4);
+}
+/* stitching along the top and bottom of the leather */
+.tube::before { content: ""; position: absolute; left: 9.5%; right: 9.5%; top: 11%; bottom: 11%; pointer-events: none;
+  border-top: 1.5px dashed rgba(232, 196, 170, .5); border-bottom: 1.5px dashed rgba(232, 196, 170, .38); }
+/* soft shadow on the leather underneath */
+.tube::after { content: ""; position: absolute; left: 3%; right: 3%; bottom: calc(var(--tubeH) * -.2); height: calc(var(--tubeH) * .28); z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, .55), rgba(0, 0, 0, 0) 70%); }
+/* brass end caps: rounded metal with a bright highlight line, a dark band and a groove */
+.tube-end, .tube-cap { top: -5px; bottom: -5px; width: calc(var(--tubeH) * .32); border-radius: 6px;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.4) 0 2px, transparent 2px calc(100% - 2px), rgba(0,0,0,.4) calc(100% - 2px)),
+    linear-gradient(90deg, transparent 46%, rgba(0,0,0,.35) 46% 50%, rgba(255,240,200,.3) 50% 54%, transparent 54%),
+    linear-gradient(180deg, #24180A 0%, #5E4620 9%, #B8944E 22%, #F2DC9E 27%, #C7A35E 33%, #8A6A30 52%, #6A4F22 70%, #A38448 84%, #5A4219 93%, #1E1408 100%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .45); }
+.tube-end { left: calc(var(--tubeH) * -.12); }
+.tube-cap { right: calc(var(--tubeH) * -.12); }
+/* keep the card clear of the thicker rolled part (ROLL = 80px) */
+body.opened main { padding-top: 86px; }
+/* ================= scroll case v3 (21 Nov): copper-and-brass case like the reference photo =================
+   Dark aged copper body, brass bands with a floral vine and beaded edges, embossed brass rosettes,
+   a domed brass cap with a turquoise stone, hanging on a small chain when opened. (No script or religious symbols.) */
+.tube {
+  border-radius: 4px;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.62) 0%, rgba(0,0,0,.2) 10%, rgba(255,210,180,.08) 20%, rgba(255,226,200,.28) 26%, rgba(255,210,180,.08) 32%, rgba(0,0,0,0) 46%, rgba(0,0,0,.18) 68%, rgba(255,190,160,.06) 80%, rgba(0,0,0,.38) 90%, rgba(0,0,0,.68) 100%),
+    url("leather.png") 0 0 / 140px 140px,
+    linear-gradient(90deg, rgba(0,0,0,.18), rgba(0,0,0,0) 18% 82%, rgba(0,0,0,.18)),
+    #5C2B1B;
+  background-blend-mode: normal, soft-light, normal, normal;
+}
+.tube::before { content: none; }
+/* brass bands: beaded edges + a raised floral vine */
+.tube .band { position: absolute; top: 0; bottom: 0; width: 6.5%; pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.15) 10%, rgba(255,240,200,.15) 20%, rgba(255,246,220,.45) 26%, rgba(255,240,200,.12) 32%, rgba(0,0,0,0) 46%, rgba(0,0,0,.2) 68%, rgba(0,0,0,.4) 90%, rgba(0,0,0,.65) 100%),
+    radial-gradient(circle, #F2DC9E 1.2px, #5A4219 1.9px, transparent 2.3px) left top / 6px 6px repeat-y,
+    radial-gradient(circle, #F2DC9E 1.2px, #5A4219 1.9px, transparent 2.3px) right top / 6px 6px repeat-y,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='40' viewBox='0 0 20 40'%3E%3Cpath d='M10 0 C17 6 17 14 10 20 C3 26 3 34 10 40' fill='none' stroke='%235A4219' stroke-width='2.6'/%3E%3Cpath d='M10 0 C17 6 17 14 10 20 C3 26 3 34 10 40' fill='none' stroke='%23EBD08A' stroke-width='1.3'/%3E%3Cellipse cx='15.5' cy='9' rx='2.2' ry='4' transform='rotate(25 15.5 9)' fill='%23D9B868' stroke='%235A4219' stroke-width='.6'/%3E%3Cellipse cx='4.5' cy='31' rx='2.2' ry='4' transform='rotate(-25 4.5 31)' fill='%23D9B868' stroke='%235A4219' stroke-width='.6'/%3E%3Ccircle cx='10' cy='20' r='2.4' fill='%23F2DC9E' stroke='%235A4219' stroke-width='.6'/%3E%3C/svg%3E") center top / 62% auto repeat-y,
+    linear-gradient(90deg, #6E5222, #A8843E 20%, #8C6C30 80%, #5A4219);
+  box-shadow: 1px 0 1px rgba(0,0,0,.45), -1px 0 1px rgba(0,0,0,.45); }
+.tube .b1 { left: 4.5%; } .tube .b2 { left: 22.5%; } .tube .b3 { left: 46.75%; } .tube .b4 { left: 71%; } .tube .b5 { left: 89%; }
+/* embossed brass rosettes on the copper */
+.tube .rose { position: absolute; top: 50%; width: calc(var(--tubeH) * .5); height: calc(var(--tubeH) * .5); transform: translate(-50%, -50%); pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='%23C4A05A' stroke='%235A4219' stroke-width='1.1'%3E%3Cellipse cx='32' cy='16' rx='6' ry='12'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='12' transform='rotate(45 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='12' transform='rotate(90 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='12' transform='rotate(135 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='12' transform='rotate(180 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='12' transform='rotate(225 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='12' transform='rotate(270 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='6' ry='12' transform='rotate(315 32 32)'/%3E%3C/g%3E%3Cg fill='%23EBD08A' stroke='%235A4219' stroke-width='.8'%3E%3Cellipse cx='32' cy='21' rx='3' ry='6'/%3E%3Cellipse cx='32' cy='21' rx='3' ry='6' transform='rotate(90 32 32)'/%3E%3Cellipse cx='32' cy='21' rx='3' ry='6' transform='rotate(180 32 32)'/%3E%3Cellipse cx='32' cy='21' rx='3' ry='6' transform='rotate(270 32 32)'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='6' fill='%23F2DC9E' stroke='%235A4219' stroke-width='1'/%3E%3Ccircle cx='32' cy='32' r='2.4' fill='%238C6C30'/%3E%3C/svg%3E") center / contain no-repeat;
+  filter: drop-shadow(0 -1px 0 rgba(255, 236, 190, .35)) drop-shadow(0 2px 2px rgba(0, 0, 0, .55)); }
+.tube .r1 { left: 14.5%; } .tube .r2 { left: 34.5%; } .tube .r3 { left: 65.5%; } .tube .r4 { left: 85.5%; }
+/* closed end: a flat brass base with a beaded rim */
+.tube-end { width: calc(var(--tubeH) * .2); left: calc(var(--tubeH) * -.08); border-radius: 5px;
+  background:
+    radial-gradient(circle, #F2DC9E 1.3px, #5A4219 2px, transparent 2.4px) right top / 7px 7px repeat-y,
+    linear-gradient(180deg, #24180A 0%, #5E4620 9%, #B8944E 22%, #F2DC9E 27%, #C7A35E 33%, #8A6A30 52%, #6A4F22 70%, #A38448 84%, #5A4219 93%, #1E1408 100%); }
+/* domed cap with a beaded ring and a turquoise stone at the tip */
+.tube-cap { width: calc(var(--tubeH) * .42); right: calc(var(--tubeH) * -.34); top: -4%; bottom: -4%; z-index: 3;
+  border-radius: 5px 48% 48% 5px / 5px 50% 50% 5px; transform-origin: 8% 12%;
+  background:
+    radial-gradient(circle, #F2DC9E 1.3px, #5A4219 2px, transparent 2.4px) 3px top / 7px 7px repeat-y,
+    linear-gradient(90deg, rgba(0,0,0,.35) 0 2px, transparent 2px 13px, rgba(0,0,0,.35) 13px 15px, transparent 15px),
+    linear-gradient(180deg, #24180A 0%, #5E4620 9%, #B8944E 22%, #F2DC9E 27%, #C7A35E 33%, #8A6A30 52%, #6A4F22 70%, #A38448 84%, #5A4219 93%, #1E1408 100%);
+  transition: transform .75s cubic-bezier(.35, 1.35, .5, 1), opacity .5s var(--ease); }
+.tube-cap::after { content: ""; position: absolute; right: -5%; top: 36%; width: 22%; height: 28%; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #BFF3EC, #3FB4A6 45%, #1D6E66 85%); box-shadow: 0 0 0 2px #8A6A30, 0 1px 2px rgba(0,0,0,.6); }
+/* little chain linking the cap to the case (hidden behind the cap until it opens) */
+.tube .chain { position: absolute; right: calc(var(--tubeH) * -.02); top: 14%; width: 6px; height: calc(var(--tubeH) * .2); z-index: 2; pointer-events: none;
+  background: repeating-linear-gradient(180deg, #E3C47E 0 3px, #6E5222 3px 4px, transparent 4px 6px, #B8944E 6px 8px, transparent 8px 10px);
+  border-radius: 3px; transition: height .75s cubic-bezier(.35, 1.35, .5, 1); }
+/* opening: the cap swings off and hangs below the open end on its chain; the case itself stays still */
+body.out .tube-cap { opacity: 1; transform: translate(calc(var(--tubeH) * .02), calc(var(--tubeH) * .78)) rotate(78deg); }
+body.out .tube .chain { height: calc(var(--tubeH) * .95); }
+body.sliding-out .tube { transform: none; }
+body.tube-gone .tube { opacity: 0; transform: translateY(30px); pointer-events: none; }
+/* ================= scroll case v4 (21 Nov): rendered images (lit like a real metal object) =================
+   case-body.png repeats along the case; case-base.png and case-cap.png are the brass ends (made by tools\render-scroll-case.ps1). */
+.tube { background: url("case-body.png") 0 0 / auto 100%; background-repeat: round no-repeat; border-radius: 0; box-shadow: none; }
+.tube .band, .tube .rose, .tube .chain { display: none; }
+.tube-end, .tube-cap { top: -5%; bottom: auto; height: 110%; border-radius: 0; box-shadow: none; background: none; }
+.tube-end { width: calc(var(--tubeH) * 1.1 * .30); left: calc(var(--tubeH) * 1.1 * -.30 + 4px); background: url("case-base.png") center / 100% 100% no-repeat; }
+.tube-cap { width: calc(var(--tubeH) * 1.1 * .55); right: calc(var(--tubeH) * 1.1 * -.55 + 4px); background: url("case-cap.png") center / 100% 100% no-repeat;
+  transform-origin: 20% 50%; }
+.tube-cap::after { content: none; }
+.tube-end, .tube-cap { filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .35)); }
+/* the cap pulls off the end and fades; then the scroll slides out while the case slides left */
+body.out .tube-cap { transform: translateX(calc(var(--tubeH) * .7)) rotate(10deg); opacity: 0; }
+body.sliding-out .tube { transform: translateX(calc(-1 * var(--tubeOut, 180px))); }
+body.tube-gone .tube { opacity: 0; transform: translateX(calc(-1 * var(--tubeOut, 180px))) translateY(30px); }
+/* rolled scroll size follows the screen (set by the script) */
+body.rolled main { transform: translateY(var(--rollY, 40vh)) scale(var(--rollS, .82)); }
+body.rolled.sliding-out main { transform: translateX(var(--outX, 200px)) translateY(var(--rollY, 40vh)) scale(var(--rollS, .82)); }
+/* ================= scroll case v5 (21 Nov, design B): dark stitched leather with antique brass caps =================
+   Images made by tools\render-scroll-case-options.ps1 (argument "leather"). The body stretches along the case. */
+.tube { background: url("case-body.png") center / 100% 100% no-repeat; }
+.tube-end, .tube-cap { top: -8%; height: 116%; }
+.tube-end { width: calc(var(--tubeH) * .42); left: calc(var(--tubeH) * -.42 + 4px); }
+.tube-cap { width: calc(var(--tubeH) * .62); right: calc(var(--tubeH) * -.62 + 4px); }
+</style>
 </head>
 <body>
 <canvas id="petals" aria-hidden="true"></canvas>
@@ -305,7 +675,7 @@ body.lb-open { overflow: hidden; }/* ---------- swipe through the stamp photos -
     <div class="pocket">
       <div class="card" id="card">
         <div class="card-in">
-          <p class="c-eyebrow">SAVE THE DATE</p>
+          <p class="c-eyebrow">Save the Date</p>
           <div class="stamp-wrap">
             <div class="stamp">
               <div class="stamp-photo">
@@ -413,7 +783,7 @@ body.lb-open { overflow: hidden; }/* ---------- swipe through the stamp photos -
       <p class="love-zh">敬请期待，婚期临近时我们会再与您分享更多详情。</p>
       <p class="love-sig">With love,<br><span>Yoong Ming &amp; Cassey</span></p>
     </div>
-    <button class="replay" id="replay" type="button">Close envelope · 合上信封</button>
+    <button class="replay" id="replay" type="button">Roll up the scroll · 卷起卷轴</button>
   </div>
 </main>
 
@@ -487,42 +857,111 @@ body.lb-open { overflow: hidden; }/* ---------- swipe through the stamp photos -
   }
 
   function showDetails() { after.getBoundingClientRect(); after.classList.add("show"); }
+  // details appear at once (no stagger): they are revealed by the unrolling scroll instead
+  function showDetailsNow() {
+    after.classList.add("instant"); after.classList.add("show"); after.getBoundingClientRect();
+    requestAnimationFrame(function () { after.classList.remove("instant"); });
+  }
 
+  // ---- the big scroll: clip <main> from the top down and move the bottom rod with the edge ----
+  var mainEl = document.querySelector("main");
+  var raf = 0;
+  function setU(u) {
+    mainEl.style.setProperty("--u", u + "px");
+    mainEl.style.clipPath = "inset(-80px -80px calc(100% - " + u + "px) -80px)";
+  }
+  function clearU() { cancelAnimationFrame(raf); mainEl.style.removeProperty("--u"); mainEl.style.clipPath = ""; }
+  function ease(k) { return k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
+  function animU(from, to, ms, done) {
+    cancelAnimationFrame(raf);
+    var t0 = performance.now();
+    function step(now) {
+      var k = Math.min(1, (now - t0) / ms);
+      setU(from + (to - from) * ease(k));
+      if (k < 1) raf = requestAnimationFrame(step); else if (done) done();
+    }
+    raf = requestAnimationFrame(step);
+  }
+  // rolled-up height: the top rod, the card and a little red below it
+  function rolledU() {
+    var m = mainEl.getBoundingClientRect(), s = scene.getBoundingClientRect();
+    return Math.round(s.bottom - m.top + 28);
+  }
+  function unrollMs(dist) { return Math.max(1600, Math.min(3200, dist * 1.5)); }
+
+  // ---- start: the scroll is inside a lacquered scroll case (21 Nov) ----
+  // The card and all the details are already laid out on the big scroll; <main> is clipped to just the
+  // rolled part (ROLL px), shrunk, and hidden inside the case in the middle of the screen.
+  // Tap the seal: the end cap pops off, the rolled scroll slides out of the case, the case fades away,
+  // the scroll comes forward to full size, then unrolls downward with everything on it.
+  var ROLL = 80;
+  var sealBtn = document.getElementById("seal"), hintEl = scene.querySelector(".hint");
+  document.body.appendChild(sealBtn); if (hintEl) document.body.appendChild(hintEl);
+  var tube = document.createElement("div");
+  tube.className = "tube"; tube.setAttribute("aria-hidden", "true");
+  tube.innerHTML = '<span class="tube-end"></span>' +
+    '<i class="band b1"></i><i class="band b2"></i><i class="band b3"></i><i class="band b4"></i><i class="band b5"></i>' +
+    '<i class="rose r1"></i><i class="rose r2"></i><i class="rose r3"></i><i class="rose r4"></i>' +
+    '<span class="chain"></span><span class="tube-cap"></span>';
+  document.body.appendChild(tube);
+  document.body.classList.add("instant");
+  scene.classList.add("instant", "opening", "sliding", "done");
+  after.hidden = false; showDetailsNow();
+  document.body.classList.add("opened", "scroll-on", "rolled");
+  setU(ROLL);
+  // centre the rolled scroll on the case (middle of the screen) and size the case to fit it
+  function placeRoll() {
+    var bs = document.body.style, mid = Math.round((document.documentElement.clientHeight || window.innerHeight) / 2);
+    bs.setProperty("--midY", mid + "px");
+    mainEl.style.setProperty("--rollY", Math.round(mid - mainEl.offsetTop - ROLL / 2) + "px");
+    // case height as set in CSS, its brass ends add about 0.94 x height; the rolled scroll shrinks so the whole case fits on screen
+    var th = parseFloat(getComputedStyle(tube).height) || 110, ends = th * 1.04, vw = document.documentElement.clientWidth || window.innerWidth;
+    var rs = Math.min(.82, (vw - 28 - ends - 24) / (mainEl.offsetWidth + 24));
+    mainEl.style.setProperty("--rollS", rs.toFixed(3));
+    var tw = Math.round((mainEl.offsetWidth + 24) * rs + 24);
+    bs.setProperty("--tubeW", tw + "px");
+    bs.setProperty("--outX", Math.round(tw * .55) + "px");     // how far the scroll slides out to the right
+    bs.setProperty("--tubeOut", Math.round(tw * .5) + "px");   // how far the case moves back to the left
+  }
+  placeRoll(); window.addEventListener("resize", placeRoll);
+  requestAnimationFrame(function () { requestAnimationFrame(function () { scene.classList.remove("instant"); document.body.classList.remove("instant"); }); });
+
+  var B = document.body.classList;
   function open(instant) {
     if (opened) return;
     opened = true;
     var fast = instant || reduce;
-    scene.classList.add("opening");
-    later(function () { scene.classList.add("sliding"); }, 750, fast);
-    later(function () { scene.classList.add("done"); }, 1900, fast);
-    // once the envelope has dropped away: card glides aside (wide screens), then the details arrive one by one
+    if (fast) { B.add("out", "tube-gone"); B.remove("rolled", "sliding-out"); clearU(); return; }
+    B.add("out");                                            // seal fades, the cap comes off
+    later(function () { B.add("sliding-out"); }, 650, false); // the scroll slides out to the right as the case slides left
+    later(function () { B.add("tube-gone"); B.remove("rolled", "sliding-out"); }, 1650, false); // case fades; scroll comes forward and grows
     later(function () {
-      if (fast) { document.body.classList.add("opened"); after.hidden = false; showDetails(); return; }
-      glide(function () { document.body.classList.add("opened"); after.hidden = false; }, 850);
-      later(showDetails, wide.matches ? 550 : 420, false);
-    }, 2550, fast);
+      var to = mainEl.offsetHeight;
+      animU(ROLL, to, unrollMs(to - ROLL), clearU);         // unroll with everything on it
+    }, 2600, false);
   }
 
-  // Close: the exact reverse. Details fade away, card glides back to the middle, envelope rises, card slides in, flap folds down, seal returns.
+  // Roll up: the scroll rolls back up, slides back into the case, the cap goes back on and the seal returns.
   function reset() {
     timers.forEach(clearTimeout); timers = [];
-    scene.classList.remove("instant"); after.classList.remove("instant");
-    after.classList.remove("show");
+    cancelAnimationFrame(raf);
     window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
-    var t = reduce ? 0 : 500;
-    later(function () { glide(function () { after.hidden = true; document.body.classList.remove("opened"); }, 750); }, t, reduce);
-    t += reduce ? 0 : 800;
-    later(function () { scene.classList.remove("done"); }, t, reduce);
-    later(function () { scene.classList.remove("sliding"); }, t + 1000, reduce);
-    later(function () { scene.classList.remove("opening"); opened = false; }, t + 2100, reduce);
+    if (reduce) { setU(ROLL); B.add("rolled"); B.remove("out", "tube-gone", "sliding-out"); opened = false; return; }
+    var from = mainEl.offsetHeight;
+    setU(from);
+    animU(from, ROLL, Math.max(1100, Math.min(2200, (from - ROLL) * .9)), function () {
+      B.add("rolled", "sliding-out");                        // shrinks back to the middle, beside the case
+      later(function () { B.remove("tube-gone"); }, 300, false);           // case comes back
+      later(function () { B.remove("sliding-out"); }, 1200, false);        // scroll slides back in
+      later(function () { B.remove("out"); opened = false; }, 2150, false); // cap back on, seal returns
+    });
   }
 
-  scene.addEventListener("click", function () { open(false); });
-  document.getElementById("seal").addEventListener("click", function (e) { e.stopPropagation(); open(false); });
-  // Closes the envelope only; guests tap the wax seal to open it again
-  document.getElementById("replay").addEventListener("click", function () { reset(); });
+  sealBtn.addEventListener("click", function (e) { e.stopPropagation(); open(false); });
+  tube.addEventListener("click", function () { open(false); });
+  document.getElementById("replay").addEventListener("click", function (e) { e.stopPropagation(); reset(); });
 
-  if (location.hash === "#open") { scene.classList.add("instant"); after.classList.add("instant"); open(true); }
+  if (location.hash === "#open") { document.body.classList.add("instant"); open(true); requestAnimationFrame(function () { document.body.classList.remove("instant"); }); }
 
   // Countdown to 1 May 2027, 10:00 am Malaysia time, ticking every second
   var cdTarget = Date.UTC(2027, 4, 1, 2, 0, 0);
@@ -641,7 +1080,7 @@ body.lb-open { overflow: hidden; }/* ---------- swipe through the stamp photos -
     if (p && p.catch) p.catch(function () { started = false; });
     setTimeout(function () { if (!audio.paused && !audio.error) { btn.hidden = false; setUi(); } }, 700);
   }
-  scene.addEventListener("click", start, true);   // the tap on the seal or envelope
+  document.addEventListener("click", function (e) { if (e.target.closest && e.target.closest("#seal, .tube, main")) start(); }, true);   // the tap on the seal or the rolled scroll
   btn.addEventListener("click", function () {
     if (audio.paused) { wantOn = true; audio.play().then(function () { fadeTo(.55, 800); setUi(); }).catch(function () {}); }
     else { wantOn = false; audio.pause(); setUi(); }
@@ -654,14 +1093,15 @@ body.lb-open { overflow: hidden; }/* ---------- swipe through the stamp photos -
     else if (resumeOnShow && wantOn) { audio.play().then(setUi).catch(function () {}); }
   });
 })();
-// Sakura petals drifting across the page (a nod to the Japan photos). Still petals for reduced motion.
+// Hearts raining down over the black night (21 Nov: replaced the maple leaves). They sway a little and turn as they fall.
+// Still hearts for reduced motion.
 (function () {
   var cv = document.getElementById("petals");
   if (!cv || !cv.getContext) return;
   var ctx = cv.getContext("2d");
   var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var colors = ["#F6CFD8", "#F2BFCC", "#FBE3E8", "#FFFFFF", "#EFC4CF"];
-  var W, H, dpr, petals = [];
+  var colors = ["#E8798B"];   // one soft rose that shows on the leather
+  var W, H, dpr, hearts = [];
   function size() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = window.innerWidth; H = window.innerHeight;
@@ -670,42 +1110,47 @@ body.lb-open { overflow: hidden; }/* ---------- swipe through the stamp photos -
   }
   function make(anyY) {
     return {
-      x: Math.random() * W, y: anyY ? Math.random() * H : -20 - Math.random() * 80,
-      s: 6 + Math.random() * 7, rot: Math.random() * Math.PI * 2, vr: (Math.random() - .5) * .02,
-      vy: .25 + Math.random() * .45, sway: Math.random() * Math.PI * 2, vs: .008 + Math.random() * .012,
-      flip: Math.random() * Math.PI * 2, c: colors[(Math.random() * colors.length) | 0], a: .55 + Math.random() * .35
+      x: Math.random() * W, y: anyY ? Math.random() * H : -20 - Math.random() * 60,
+      s: 5 + Math.random() * 9, rot: (Math.random() - .5) * .6, vr: (Math.random() - .5) * .01,
+      vy: .7 + Math.random() * 1.1, sway: Math.random() * Math.PI * 2, vs: .01 + Math.random() * .015,
+      flip: Math.random() * Math.PI * 2, vf: .02 + Math.random() * .02,
+      c: colors[(Math.random() * colors.length) | 0], a: .35 + Math.random() * .45
     };
   }
-  function drawPetal(p) {
+  function drawHeart(p) {
+    var s = p.s;
     ctx.save();
     ctx.translate(p.x, p.y); ctx.rotate(p.rot);
-    ctx.scale(1, .55 + .45 * Math.abs(Math.cos(p.flip)));
+    ctx.scale(.45 + .55 * Math.abs(Math.cos(p.flip)), 1);
     ctx.globalAlpha = p.a; ctx.fillStyle = p.c;
+    ctx.shadowColor = "rgba(232,121,139,.4)"; ctx.shadowBlur = s * .4;
     ctx.beginPath();
-    ctx.moveTo(0, -p.s);
-    ctx.bezierCurveTo(p.s * .9, -p.s * .6, p.s * .7, p.s * .7, 0, p.s);
-    ctx.bezierCurveTo(-p.s * .7, p.s * .7, -p.s * .9, -p.s * .6, 0, -p.s);
-    ctx.fill();
-    ctx.globalAlpha = p.a * .5; ctx.fillStyle = "#FFFFFF";
-    ctx.beginPath(); ctx.ellipse(-p.s * .15, -p.s * .25, p.s * .18, p.s * .4, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.moveTo(0, s * .35);
+    ctx.bezierCurveTo(-s * .1, s * .25, -s, -s * .15, -s * .55, -s * .6);
+    ctx.bezierCurveTo(-s * .25, -s * .9, 0, -s * .65, 0, -s * .42);
+    ctx.bezierCurveTo(0, -s * .65, s * .25, -s * .9, s * .55, -s * .6);
+    ctx.bezierCurveTo(s, -s * .15, s * .1, s * .25, 0, s * .35);
+    ctx.closePath(); ctx.fill();
+    ctx.shadowBlur = 0; ctx.globalAlpha = p.a * .45; ctx.fillStyle = "#FFFFFF";
+    ctx.beginPath(); ctx.ellipse(-s * .45, -s * .48, s * .14, s * .09, -.6, 0, Math.PI * 2); ctx.fill();
     ctx.restore();
   }
   function frame() {
     ctx.clearRect(0, 0, W, H);
-    for (var i = 0; i < petals.length; i++) {
-      var p = petals[i];
+    for (var i = 0; i < hearts.length; i++) {
+      var p = hearts[i];
       if (!still) {
-        p.sway += p.vs; p.flip += .03; p.rot += p.vr;
-        p.y += p.vy; p.x += Math.sin(p.sway) * .6 + .15;
-        if (p.y > H + 20 || p.x > W + 30) petals[i] = make(false);
+        p.sway += p.vs; p.flip += p.vf; p.rot += p.vr;
+        p.y += p.vy; p.x += Math.sin(p.sway) * .5;
+        if (p.y > H + 20) hearts[i] = make(false);
       }
-      drawPetal(p);
+      drawHeart(p);
     }
     if (!still) requestAnimationFrame(frame);
   }
   size();
-  var n = Math.round(Math.min(26, Math.max(12, W * H / 38000)));
-  for (var i = 0; i < n; i++) petals.push(make(true));
+  var n = Math.round(Math.min(60, Math.max(28, W * H / 22000)));
+  for (var i = 0; i < n; i++) hearts.push(make(true));
   window.addEventListener("resize", function () { size(); if (still) frame(); });
   frame();
 })();
