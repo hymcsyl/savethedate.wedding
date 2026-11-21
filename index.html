@@ -14,7 +14,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='31' fill='%23A0566B'/%3E%3Ccircle cx='32' cy='32' r='26' fill='none' stroke='%23D5B172' stroke-width='1.5'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='24' fill='%23F8ECF4'%3EY%26amp;C%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;0,6..96,800;1,6..96,500&family=Jost:wght@400;500&family=Noto+Serif+SC:wght@600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;0,6..96,800;1,6..96,500&family=Great+Vibes&family=Jost:wght@400;500&family=Noto+Serif+SC:wght@600&family=Noto+Sans+SC:wght@500&display=swap">
 <style>
 /* One envelope on washi paper: tap the Y&C seal, the flap lifts, the card rises out and the envelope drops away.
    Single deliberate light look, like printed stationery. All geometry is in units of --w, the envelope width. */
@@ -277,98 +277,31 @@ body.lb-open { overflow: hidden; }/* ---------- swipe through the stamp photos -
 .music.playing .ico-on { animation: beat 1.6s ease-in-out infinite; }
 @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
 @media (prefers-reduced-motion: reduce) { .music.playing .ico-on { animation: none; } }
-/* ================= Flower-fold envelope (burgundy, lace edges, cream oval seal) =================
-   Four petal flaps folded over the card bloom open from the centre; the burgundy cover then fades away. */
-.scene { height: calc(var(--w) * 1.4); }
-.card { transform: scale(.94); }
-.sliding .card { transform: translateY(-1vh) scale(.98); }
-.done .card { transform: none; }
-
-.cv { position: fixed; transition: opacity 1s var(--ease), transform 1.2s var(--ease), visibility 0s linear 0s; }
-.done .cv { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 1s var(--ease), transform 1.2s var(--ease), visibility 0s linear 1s; }
-
-.cv-bg { inset: 0; z-index: 1; background-color: #6A1D2B;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .12 0 0 0 0 .02 0 0 0 0 .05 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    radial-gradient(120% 90% at 50% 45%, rgba(255,255,255,.06), rgba(0,0,0,.28) 100%); }
-
-.cv-box { left: 50%; top: 50%; width: var(--w); height: calc(var(--w) * 1.4); transform: translate(-50%, -50%); }
-
-/* decorative petals behind the flaps, radiating from the centre like a peony */
-.cv-petals { z-index: 1; }
-.dp { position: absolute; left: 50%; top: 50%; width: 82%; height: 74%; margin-left: -41%; transform-origin: 50% 0; overflow: visible;
-  transition: transform 1.4s var(--ease); filter: drop-shadow(0 6px 10px rgba(30, 5, 12, .35)); }
-.dp1 { transform: rotate(-135deg); } .dp2 { transform: rotate(135deg); } .dp3 { transform: rotate(-45deg); } .dp4 { transform: rotate(45deg); }
-.opening .dp1 { transform: rotate(-140deg) scale(1.12); } .opening .dp2 { transform: rotate(140deg) scale(1.12); }
-.opening .dp3 { transform: rotate(-40deg) scale(1.12); } .opening .dp4 { transform: rotate(40deg) scale(1.12); }
-
-/* the four flaps */
-.cv-flaps { z-index: 3; perspective: 1800px; pointer-events: none; }
-.flap { position: absolute; transform-style: preserve-3d; transition: transform 1.05s cubic-bezier(.5, 0, .25, 1); }
-.flap .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-.flap svg { width: 100%; height: 100%; display: block; overflow: visible; }
-.f-top { left: 0; top: 0; width: 100%; height: 57%; transform-origin: 50% 0; z-index: 4; }
-.f-bottom { left: 0; bottom: 0; width: 100%; height: 57%; transform-origin: 50% 100%; z-index: 3; }
-.f-left { left: 0; top: 0; width: 60%; height: 100%; transform-origin: 0 50%; z-index: 1; }
-.f-right { right: 0; top: 0; width: 60%; height: 100%; transform-origin: 100% 50%; z-index: 2; }
-.f-top .back, .f-bottom .back { transform: rotateX(180deg); }
-.f-left .back, .f-right .back { transform: rotateY(180deg); }
-.f-bottom svg { transform: scaleY(-1); }
-.f-right svg { transform: scaleX(-1); }
-.flap .front { filter: drop-shadow(0 3px 6px rgba(25, 4, 10, .45)); }
-
-/* closing order (reverse of opening): bottom, then sides, then top */
-.f-bottom { transition-delay: 0s; } .f-left, .f-right { transition-delay: .22s; } .f-top { transition-delay: .44s; }
-/* opening order: top, then sides, then bottom */
-.opening .f-top { transform: rotateX(178deg); transition-delay: .15s; }
-.opening .f-left { transform: rotateY(-178deg); transition-delay: .4s; }
-.opening .f-right { transform: rotateY(178deg); transition-delay: .4s; }
-.opening .f-bottom { transform: rotateX(-178deg); transition-delay: .62s; }
-.done .cv-flaps { transform: translate(-50%, -50%) scale(1.12); }
-
-.p-front { fill: url(#gPetal); }
-.p-back { fill: url(#gPetalIn); }
-.p-deco { fill: url(#gPetalDeep); }
-.lace { fill: none; stroke: rgba(248, 230, 228, .5); stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: .1 3.4; vector-effect: non-scaling-stroke; }
-.lace2 { fill: none; stroke: rgba(245, 225, 222, .22); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.lace-band { fill: none; stroke: rgba(248, 230, 228, .10); stroke-width: 8; vector-effect: non-scaling-stroke; }
-.lace-line { fill: none; stroke: rgba(248, 230, 228, .28); stroke-width: .8; vector-effect: non-scaling-stroke; }
-
-/* cream oval wax seal */
-.cv-seal { position: fixed; z-index: 5; left: 50%; top: 50%; width: min(30vw, 116px); aspect-ratio: 100 / 128; transform: translate(-50%, -50%);
-  border: 0; padding: 0; background: transparent; cursor: pointer; filter: drop-shadow(0 6px 10px rgba(20, 3, 8, .45));
-  transition: opacity .5s var(--ease), transform .6s var(--ease); -webkit-tap-highlight-color: transparent; }
-.cv-seal svg { width: 100%; height: 100%; display: block; overflow: visible; }
-.cv-seal text { font-family: var(--display); font-style: italic; font-weight: 500; }
-.scene:not(.opening) .cv-seal:hover { transform: translate(-50%, -50%) scale(1.04); }
-.cv-seal:focus-visible { outline: 2px solid #F1E8D8; outline-offset: 6px; border-radius: 50%; }
-.opening .cv-seal { opacity: 0; transform: translate(-50%, -50%) scale(.7); pointer-events: none; }
-
-/* words on the cover */
-.cv-text { z-index: 6; left: 0; right: 0; text-align: center; color: #F3E7D9; pointer-events: none; transition: opacity .6s var(--ease); }
-.cv-top { top: max(7vh, 28px); }
-.cv-bottom { bottom: max(7vh, 28px); }
-.cv-text p { margin: 0; }
-.cv-eyebrow { font-family: var(--display); font-weight: 500; font-size: clamp(15px, 4.6vw, 22px); letter-spacing: .14em; font-variant: small-caps; }
-.cv-names { margin-top: 6px !important; font-family: var(--display); font-style: italic; font-size: clamp(22px, 7vw, 34px); }
-.cv-open { font-family: var(--display); font-weight: 500; font-size: clamp(14px, 4.2vw, 20px); letter-spacing: .14em; font-variant: small-caps; animation: breathe 2.6s ease-in-out infinite; }
-.cv-open small { display: block; margin-top: 4px; font-family: var(--zh); font-variant: normal; font-size: 13px; letter-spacing: .2em; opacity: .85; }
-@keyframes breathe { 0%, 100% { opacity: .75; } 50% { opacity: 1; } }
-.opening .cv-text { opacity: 0; }
-@media (prefers-reduced-motion: reduce) { .cv-open { animation: none; } .flap, .dp, .cv { transition-duration: .01s !important; transition-delay: 0s !important; } }
-</style>
+/* seal monogram (signature style, chosen 21 Nov) */
+.seal { width: 72px; height: 72px; margin-left: -36px; top: calc(var(--w) * (.8 + .37) - 36px); }
+.seal .sig-mono text { font-family: "Great Vibes", "Segoe Script", cursive; font-style: normal; font-weight: 400; }
+/* ---------- readability (21 Nov): thin italic Bodoni only for names and headings; longer text in clear Jost, Chinese in Noto Sans SC, darker greys ---------- */
+:root { --text2: #47413D; --zhb: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
+.c-day { font-family: var(--body); font-style: normal; font-weight: 500; letter-spacing: .04em; font-size: calc(var(--w) * .043); color: var(--ink); }
+.c-venue { color: var(--ink); }
+.hint { font-family: var(--body); font-style: normal; font-weight: 500; font-size: 16px; letter-spacing: .04em; color: var(--ink); }
+.hint small { font-family: var(--zhb); font-weight: 500; font-size: 14px; color: #7A5A1E; }
+.verse p { font-family: var(--body); font-style: normal; font-size: 16.5px; line-height: 1.75; }
+.verse .verse-zh, .story .story-zh, .love .love-zh { font-family: var(--zhb); font-weight: 500; font-size: 15px; color: var(--ink); }
+.faq summary { font-family: var(--body); font-weight: 500; font-size: 16px; }
+.faq details p { color: var(--ink); }
+.love p { font-family: var(--body); font-style: normal; font-size: 16.5px; line-height: 1.6; }
+.love .love-sig { font-family: var(--body); color: var(--text2); }
+.love .love-sig span { font-family: var(--display); font-style: italic; font-weight: 600; }
+.replay { font: 500 15px var(--body); }
+.cd span { color: var(--ink); font-weight: 600; }
+.sec h2 { font-weight: 600; }</style>
 </head>
 <body>
 <canvas id="petals" aria-hidden="true"></canvas>
 <main>
-  <div class="scene" id="scene" aria-label="A love letter from Yoong Ming and Cassey. Tap the seal to open.">
-    <div class="cv cv-bg" aria-hidden="true"></div>
-    <div class="cv cv-box cv-petals" aria-hidden="true">
-      <svg class="dp dp1" viewBox="0 0 100 100" preserveAspectRatio="none"><use href="#petalV" class="p-deco"/><use href="#petalVEdge" class="lace2"/></svg>
-      <svg class="dp dp2" viewBox="0 0 100 100" preserveAspectRatio="none"><use href="#petalV" class="p-deco"/><use href="#petalVEdge" class="lace2"/></svg>
-      <svg class="dp dp3" viewBox="0 0 100 100" preserveAspectRatio="none"><use href="#petalV" class="p-deco"/><use href="#petalVEdge" class="lace2"/></svg>
-      <svg class="dp dp4" viewBox="0 0 100 100" preserveAspectRatio="none"><use href="#petalV" class="p-deco"/><use href="#petalVEdge" class="lace2"/></svg>
-    </div>
+  <div class="scene" id="scene" aria-label="Envelope. Tap to open your save the date.">
+    <div class="env-part env-back"></div>
     <div class="pocket">
       <div class="card" id="card">
         <div class="card-in">
@@ -408,46 +341,24 @@ body.lb-open { overflow: hidden; }/* ---------- swipe through the stamp photos -
         </div>
       </div>
     </div>
-    <div class="cv cv-box cv-flaps" aria-hidden="true">
-      <div class="flap f-left"><div class="face front"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><use href="#petalH" class="p-front"/><use href="#petalHEdge" class="lace-band"/><use href="#petalHEdge" class="lace-line"/><use href="#petalHEdge" class="lace"/></svg></div><div class="face back"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><use href="#petalH" class="p-back"/><use href="#petalHEdge" class="lace-band"/><use href="#petalHEdge" class="lace-line"/><use href="#petalHEdge" class="lace"/></svg></div></div>
-      <div class="flap f-right"><div class="face front"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><use href="#petalH" class="p-front"/><use href="#petalHEdge" class="lace-band"/><use href="#petalHEdge" class="lace-line"/><use href="#petalHEdge" class="lace"/></svg></div><div class="face back"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><use href="#petalH" class="p-back"/><use href="#petalHEdge" class="lace-band"/><use href="#petalHEdge" class="lace-line"/><use href="#petalHEdge" class="lace"/></svg></div></div>
-      <div class="flap f-bottom"><div class="face front"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><use href="#petalV" class="p-front"/><use href="#petalVEdge" class="lace-band"/><use href="#petalVEdge" class="lace-line"/><use href="#petalVEdge" class="lace"/></svg></div><div class="face back"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><use href="#petalV" class="p-back"/><use href="#petalVEdge" class="lace-band"/><use href="#petalVEdge" class="lace-line"/><use href="#petalVEdge" class="lace"/></svg></div></div>
-      <div class="flap f-top"><div class="face front"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><use href="#petalV" class="p-front"/><use href="#petalVEdge" class="lace-band"/><use href="#petalVEdge" class="lace-line"/><use href="#petalVEdge" class="lace"/></svg></div><div class="face back"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><use href="#petalV" class="p-back"/><use href="#petalVEdge" class="lace-band"/><use href="#petalVEdge" class="lace-line"/><use href="#petalVEdge" class="lace"/></svg></div></div>
-    </div>
-    <button class="cv-seal" id="seal" type="button" aria-label="Open the invitation">
-      <svg viewBox="0 0 100 128" aria-hidden="true">
+    <div class="env-part env-front"></div>
+    <div class="env-part env-flap"></div>
+    <button class="seal" id="seal" type="button" aria-label="Open the envelope">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
         <defs>
-          <radialGradient id="ivory" cx="40%" cy="34%" r="78%"><stop offset="0" stop-color="#FCF7EE"/><stop offset=".6" stop-color="#EFE5D3"/><stop offset="1" stop-color="#D8C7AA"/></radialGradient>
-          <filter id="sealRough" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="4" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="2.6" xChannelSelector="R" yChannelSelector="G"/></filter>
-          <filter id="sealSoft"><feGaussianBlur stdDeviation="1.4"/></filter>
+          <radialGradient id="sealCream" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#FFFDF8"/><stop offset=".7" stop-color="#F6EDDD"/><stop offset="1" stop-color="#E9DCC4"/></radialGradient>
         </defs>
-        <ellipse cx="50" cy="64" rx="48" ry="62" fill="url(#ivory)" filter="url(#sealRough)"/>
-        <ellipse cx="50" cy="64" rx="39.5" ry="52.5" fill="none" stroke="#C9B593" stroke-width="2.2"/>
-        <ellipse cx="50.7" cy="64.9" rx="39.5" ry="52.5" fill="none" stroke="#FFFFFF" stroke-opacity=".75" stroke-width=".9"/>
-        <ellipse cx="50" cy="64" rx="34.5" ry="47" fill="none" stroke="#C9B593" stroke-width="2.4" stroke-linecap="round" stroke-dasharray=".1 4.6"/>
-        <g fill="none" stroke="#C3AE8A" stroke-width="1.3" stroke-linecap="round"><path d="M50 52 C50 45 50 39 50 33"/><path d="M50 44 C45.5 41.5 43.5 37.5 44.5 33.5"/><path d="M50 44 C54.5 41.5 56.5 37.5 55.5 33.5"/></g>
-        <path d="M50 33 c-4.5 -6 -2.5 -11.5 0 -14 c2.5 2.5 4.5 8 0 14z" fill="#E6D9C1" stroke="#C3AE8A" stroke-width="1"/>
-        <g class="seal-mono" text-anchor="middle" font-size="18">
-          <text x="50.7" y="87.8" fill="#A48D67" fill-opacity=".5">Y &amp; C</text>
-          <text x="49.5" y="86.4" fill="#FFFFFF" fill-opacity=".8">Y &amp; C</text>
-          <text x="50" y="87" fill="#D6C6A8">Y &amp; C</text>
+        <circle cx="50" cy="50" r="48" fill="#C9A961"/>
+        <circle cx="50" cy="50" r="45" fill="url(#sealCream)"/>
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#C9A961" stroke-width=".8"/>
+        <!-- signature monogram: script Y (plum) interlocked with a gold C -->
+        <g class="sig-mono">
+          <text x="38" y="60" text-anchor="middle" font-size="42" fill="#7A3646">Y</text>
+          <text x="63" y="64" text-anchor="middle" font-size="42" fill="#B08A3E" fill-opacity=".9">C</text>
         </g>
-        <ellipse cx="36" cy="30" rx="13" ry="7" fill="#FFFFFF" fill-opacity=".35" transform="rotate(-30 36 30)" filter="url(#sealSoft)"/>
       </svg>
     </button>
-    <div class="cv cv-text cv-top"><p class="cv-eyebrow">A Love Letter From</p><p class="cv-names">Yoong Ming &amp; Cassey</p></div>
-    <div class="cv cv-text cv-bottom"><p class="cv-open">Open the invitation<small>点击打开</small></p></div>
-    <svg class="cv-defs" width="0" height="0" aria-hidden="true" style="position:absolute">
-      <defs>
-        <linearGradient id="gPetal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#80283A"/><stop offset="1" stop-color="#5F1726"/></linearGradient>
-        <linearGradient id="gPetalIn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#98455A"/><stop offset="1" stop-color="#7A2C3E"/></linearGradient>
-        <linearGradient id="gPetalDeep" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5C1624"/><stop offset="1" stop-color="#47101B"/></linearGradient>
-        <path id="petalV" d="M0,0 L100,0 C99,20 95,34 88,48 C84,56 86,62 80,70 C72,80 64,86 58,93 C55,97 52,100 50,100 C48,100 45,97 42,93 C36,86 28,80 20,70 C14,62 16,56 12,48 C5,34 1,20 0,0 Z"/>
-        <path id="petalVEdge" d="M100,0 C99,20 95,34 88,48 C84,56 86,62 80,70 C72,80 64,86 58,93 C55,97 52,100 50,100 C48,100 45,97 42,93 C36,86 28,80 20,70 C14,62 16,56 12,48 C5,34 1,20 0,0"/>
-        <path id="petalH" d="M0,0 L0,100 C20,99 34,95 48,88 C56,84 62,86 70,80 C80,72 86,64 93,58 C97,55 100,52 100,50 C100,48 97,45 93,42 C86,36 80,28 70,20 C62,14 56,16 48,12 C34,5 20,1 0,0 Z"/>
-        <path id="petalHEdge" d="M0,100 C20,99 34,95 48,88 C56,84 62,86 70,80 C80,72 86,64 93,58 C97,55 100,52 100,50 C100,48 97,45 93,42 C86,36 80,28 70,20 C62,14 56,16 48,12 C34,5 20,1 0,0"/>
-      </defs>
-    </svg>
+    <p class="hint">Tap the seal to open<small>点击打开</small></p>
   </div>
 
   <div class="after" id="after" hidden>
