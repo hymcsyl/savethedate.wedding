@@ -663,8 +663,8 @@ body.rolled.sliding-out main { transform: translateX(var(--outX, 200px)) transla
    Images made by tools\render-scroll-case-options.ps1 (argument "leather"). The body stretches along the case. */
 .tube { background: url("../case-body.png") center / 100% 100% no-repeat; }
 .tube-end, .tube-cap { top: -8%; height: 116%; }
-.tube-end { width: calc(var(--tubeH) * .42); left: calc(var(--tubeH) * -.42 + 4px); }
-.tube-cap { width: calc(var(--tubeH) * .62); right: calc(var(--tubeH) * -.62 + 4px); }
+.tube-end { width: calc(var(--tubeH) * .42); left: calc(var(--tubeH) * -.42 + var(--tubeH) * .16); }
+.tube-cap { width: calc(var(--tubeH) * .62); right: calc(var(--tubeH) * -.62 + var(--tubeH) * .14); }
 </style>
 </head>
 <body data-version="church">
